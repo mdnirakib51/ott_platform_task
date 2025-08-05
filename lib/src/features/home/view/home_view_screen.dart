@@ -1,13 +1,16 @@
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:get/get.dart';
+import 'package:ott_app/src/global/constants/enum.dart';
 import '../../../global/constants/colors_resources.dart';
 import '../../../global/constants/images.dart';
 import '../../../global/widget/global_image_loader.dart';
 import '../../../global/widget/global_sized_box.dart';
 import '../../../global/widget/global_text.dart';
-import '../controller/home_controller.dart';
+import '../../search/controller/search_controller.dart';
+import '../../video_details/view/video_details_screen.dart';
 import '../model/demo_model/movie_model.dart';
 import 'widget/carousel_slider_widget.dart';
 import 'widget/movie_menu_bar_widget.dart';
@@ -27,12 +30,12 @@ class _HomeViewScreenState extends State<HomeViewScreen> {
   // =/# Carousel Slider
   int currentIndex = 0;
   final carouselController = CarouselSliderController();
-  List<MovieModel> movieList = [
-    MovieModel(img: Images.justiceLeagueImg, text: "Justice League", subText: "Vor vielen Jahrtausenden versuchte der Superschurke Steppenwolf mit seinen Legionen aus Paradämonen zu erobern. Ein Bündnis aus Menschen, Amazonen, Olympischen Götter und den Green Lanterns konnte die Invasion verhindern. Nach dem Ableben von Superman in „Batman v Superman: Dawn of Justice“ stürzt sich Steppenwolf erneut auf die Erde und raubt den Amazonen eine der drei mächtigen Mutterboxen. Währenddessen scharrt Batman die verbliebenen Superhelden Wonder Woman, The Flash, Aquaman und Cyborg um sich und gründet damit die Justice League. Bevor sich Steppenwolf alle drei Artefakte unter den Nagel reißen kann, nutzen die Superhelden eine der Boxen um Superman wiederzubeleben."),
-    MovieModel(img: Images.johnWickCharter2Img, text: "John Wick Two", subText: "Vor vielen Jahrtausenden versuchte der Superschurke Steppenwolf mit seinen Legionen aus Paradämonen zu erobern. Ein Bündnis aus Menschen, Amazonen, Olympischen Götter und den Green Lanterns konnte die Invasion verhindern. Nach dem Ableben von Superman in „Batman v Superman: Dawn of Justice“ stürzt sich Steppenwolf erneut auf die Erde und raubt den Amazonen eine der drei mächtigen Mutterboxen. Währenddessen scharrt Batman die verbliebenen Superhelden Wonder Woman, The Flash, Aquaman und Cyborg um sich und gründet damit die Justice League. Bevor sich Steppenwolf alle drei Artefakte unter den Nagel reißen kann, nutzen die Superhelden eine der Boxen um Superman wiederzubeleben."),
-    MovieModel(img: Images.porineetaImg, text: "Porineeta", subText: "Vor vielen Jahrtausenden versuchte der Superschurke Steppenwolf mit seinen Legionen aus Paradämonen zu erobern. Ein Bündnis aus Menschen, Amazonen, Olympischen Götter und den Green Lanterns konnte die Invasion verhindern. Nach dem Ableben von Superman in „Batman v Superman: Dawn of Justice“ stürzt sich Steppenwolf erneut auf die Erde und raubt den Amazonen eine der drei mächtigen Mutterboxen. Währenddessen scharrt Batman die verbliebenen Superhelden Wonder Woman, The Flash, Aquaman und Cyborg um sich und gründet damit die Justice League. Bevor sich Steppenwolf alle drei Artefakte unter den Nagel reißen kann, nutzen die Superhelden eine der Boxen um Superman wiederzubeleben."),
-    MovieModel(img: Images.golamMamunImg, text: "Golam Mamun", subText: "Vor vielen Jahrtausenden versuchte der Superschurke Steppenwolf mit seinen Legionen aus Paradämonen zu erobern. Ein Bündnis aus Menschen, Amazonen, Olympischen Götter und den Green Lanterns konnte die Invasion verhindern. Nach dem Ableben von Superman in „Batman v Superman: Dawn of Justice“ stürzt sich Steppenwolf erneut auf die Erde und raubt den Amazonen eine der drei mächtigen Mutterboxen. Währenddessen scharrt Batman die verbliebenen Superhelden Wonder Woman, The Flash, Aquaman und Cyborg um sich und gründet damit die Justice League. Bevor sich Steppenwolf alle drei Artefakte unter den Nagel reißen kann, nutzen die Superhelden eine der Boxen um Superman wiederzubeleben."),
-  ];
+  // List<MovieModel> movieList = [
+  //   MovieModel(img: Images.justiceLeagueImg, text: "Justice League", subText: "Vor vielen Jahrtausenden versuchte der Superschurke Steppenwolf mit seinen Legionen aus Paradämonen zu erobern. Ein Bündnis aus Menschen, Amazonen, Olympischen Götter und den Green Lanterns konnte die Invasion verhindern. Nach dem Ableben von Superman in „Batman v Superman: Dawn of Justice“ stürzt sich Steppenwolf erneut auf die Erde und raubt den Amazonen eine der drei mächtigen Mutterboxen. Währenddessen scharrt Batman die verbliebenen Superhelden Wonder Woman, The Flash, Aquaman und Cyborg um sich und gründet damit die Justice League. Bevor sich Steppenwolf alle drei Artefakte unter den Nagel reißen kann, nutzen die Superhelden eine der Boxen um Superman wiederzubeleben."),
+  //   MovieModel(img: Images.johnWickCharter2Img, text: "John Wick Two", subText: "Vor vielen Jahrtausenden versuchte der Superschurke Steppenwolf mit seinen Legionen aus Paradämonen zu erobern. Ein Bündnis aus Menschen, Amazonen, Olympischen Götter und den Green Lanterns konnte die Invasion verhindern. Nach dem Ableben von Superman in „Batman v Superman: Dawn of Justice“ stürzt sich Steppenwolf erneut auf die Erde und raubt den Amazonen eine der drei mächtigen Mutterboxen. Währenddessen scharrt Batman die verbliebenen Superhelden Wonder Woman, The Flash, Aquaman und Cyborg um sich und gründet damit die Justice League. Bevor sich Steppenwolf alle drei Artefakte unter den Nagel reißen kann, nutzen die Superhelden eine der Boxen um Superman wiederzubeleben."),
+  //   MovieModel(img: Images.porineetaImg, text: "Porineeta", subText: "Vor vielen Jahrtausenden versuchte der Superschurke Steppenwolf mit seinen Legionen aus Paradämonen zu erobern. Ein Bündnis aus Menschen, Amazonen, Olympischen Götter und den Green Lanterns konnte die Invasion verhindern. Nach dem Ableben von Superman in „Batman v Superman: Dawn of Justice“ stürzt sich Steppenwolf erneut auf die Erde und raubt den Amazonen eine der drei mächtigen Mutterboxen. Währenddessen scharrt Batman die verbliebenen Superhelden Wonder Woman, The Flash, Aquaman und Cyborg um sich und gründet damit die Justice League. Bevor sich Steppenwolf alle drei Artefakte unter den Nagel reißen kann, nutzen die Superhelden eine der Boxen um Superman wiederzubeleben."),
+  //   MovieModel(img: Images.golamMamunImg, text: "Golam Mamun", subText: "Vor vielen Jahrtausenden versuchte der Superschurke Steppenwolf mit seinen Legionen aus Paradämonen zu erobern. Ein Bündnis aus Menschen, Amazonen, Olympischen Götter und den Green Lanterns konnte die Invasion verhindern. Nach dem Ableben von Superman in „Batman v Superman: Dawn of Justice“ stürzt sich Steppenwolf erneut auf die Erde und raubt den Amazonen eine der drei mächtigen Mutterboxen. Währenddessen scharrt Batman die verbliebenen Superhelden Wonder Woman, The Flash, Aquaman und Cyborg um sich und gründet damit die Justice League. Bevor sich Steppenwolf alle drei Artefakte unter den Nagel reißen kann, nutzen die Superhelden eine der Boxen um Superman wiederzubeleben."),
+  // ];
 
   // =/# Resent
   List<MovieModel> recentList = [
@@ -53,12 +56,19 @@ class _HomeViewScreenState extends State<HomeViewScreen> {
     "All Movies",
   ];
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   final homePageController = HomePageController.current;
-  //   homePageController.initAddListener();
-  // }
+  @override
+  void initState() {
+    super.initState();
+    final searchBarController = SearchBarController.current;
+    SchedulerBinding.instance.addPostFrameCallback((_) async {
+      Future.wait({
+        searchBarController.fetchMovies(search: 'batman'),
+        searchBarController.fetchRecent(search: 'jaws', year: '2025'),
+        searchBarController.fetchSeries(search: 'batman', year: '2022'),
+      });
+    });
+
+  }
   //
   // @override
   // void dispose() {
@@ -69,7 +79,7 @@ class _HomeViewScreenState extends State<HomeViewScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<HomePageController>(builder: (homePageController){
+    return GetBuilder<SearchBarController>(builder: (searchBarController) {
       return SingleChildScrollView(
         // controller: homePageController.scrollController,
         child: Column(
@@ -79,11 +89,12 @@ class _HomeViewScreenState extends State<HomeViewScreen> {
             // ==# Carousel Slider Screen
             CarouselSlider(
               carouselController: carouselController,
-              items: movieList.map((item) =>
+              items: searchBarController.movieModel?.search?.map((item) =>
                   CarouselSliderWidget(
-                    img: item.img,
-                    text: item.text,
-                    subText: item.subText,
+                    imdbId: item.imdbID ?? "",
+                    img: item.poster ?? "",
+                    text: item.title ?? "",
+                    subText: "Vor vielen Jahrtausenden versuchte der Superschurke Steppenwolf mit seinen Legionen aus Paradämonen zu erobern. Ein Bündnis aus Menschen, Amazonen, Olympischen Götter und den Green Lanterns konnte die Invasion verhindern. Nach dem Ableben von Superman in „Batman v Superman: Dawn of Justice“ stürzt sich Steppenwolf erneut auf die Erde und raubt den Amazonen eine der drei mächtigen Mutterboxen. Währenddessen scharrt Batman die verbliebenen Superhelden Wonder Woman, The Flash, Aquaman und Cyborg um sich und gründet damit die Justice League. Bevor sich Steppenwolf alle drei Artefakte unter den Nagel reißen kann, nutzen die Superhelden eine der Boxen um Superman wiederzubeleben.",
                     onTap: (){},
                     watchTrailerOnTap: (){
                       showDialog(
@@ -91,13 +102,13 @@ class _HomeViewScreenState extends State<HomeViewScreen> {
                           builder: (ctx){
                             return VideoPlayerWidget(
                               videoSrc: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4",
-                              initImg: item.img,
+                              initImg: item.poster ?? "",
                               close: true,
                             );
                           }
                       );
                     },
-                  )).toList(),
+                  )).toList() ?? [],
               options: CarouselOptions(
                 height: 550,
                 scrollPhysics: const BouncingScrollPhysics(),
@@ -126,14 +137,17 @@ class _HomeViewScreenState extends State<HomeViewScreen> {
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Row(
-                        children: recentList.asMap().entries.map((movie){
+                        children: searchBarController.recentList?.search?.asMap().entries.map((video){
                           return MovieMenuWidget(
-                            img: movie.value.img,
-                            text: movie.value.text,
-                            subText: movie.value.subText,
-                            onTap: (){},
+                            img: video.value.poster ?? "",
+                            text: video.value.title ?? "",
+                            subText: "Free",
+                            imageFor: ImageFor.network,
+                            onTap: (){
+                              Get.to(()=> VideoDetailsScreen(imdbId: video.value.imdbID));
+                            },
                           );
-                        }).toList()
+                        }).toList() ?? []
                     ),
                   )
                 ],
@@ -201,7 +215,7 @@ class _HomeViewScreenState extends State<HomeViewScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const GlobalText(
-                    str: "Genres",
+                    str: "All Series",
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
                   ),
@@ -209,45 +223,17 @@ class _HomeViewScreenState extends State<HomeViewScreen> {
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Row(
-                        children: recentList.asMap().entries.map((movie){
+                        children: searchBarController.seriesModel?.search?.asMap().entries.map((video){
                           return MovieMenuWidget(
-                            img: movie.value.img,
-                            text: movie.value.text,
-                            subText: movie.value.subText,
-                            onTap: (){},
+                            img: video.value.poster ?? "",
+                            text: video.value.title ?? "",
+                            subText: "Free",
+                            imageFor: ImageFor.network,
+                            onTap: (){
+                              Get.to(()=> VideoDetailsScreen(imdbId: video.value.imdbID));
+                            },
                           );
-                        }).toList()
-                    ),
-                  )
-                ],
-              ),
-            ),
-
-            /// ==# All Movie
-            sizedBoxH(20),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  MovieMenuBarWidget(
-                      text: "All Movie",
-                      onTap: (){
-
-                      }
-                  ),
-                  sizedBoxH(5),
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                        children: recentList.asMap().entries.map((movie){
-                          return MovieMenuWidget(
-                            img: movie.value.img,
-                            text: movie.value.text,
-                            subText: movie.value.subText,
-                            onTap: (){},
-                          );
-                        }).toList()
+                        }).toList() ?? []
                     ),
                   )
                 ],
@@ -312,124 +298,6 @@ class _HomeViewScreenState extends State<HomeViewScreen> {
                     ),
                   ),
                   sizedBoxH(15),
-                ],
-              ),
-            ),
-
-            /// ==# Selected Movies
-            sizedBoxH(20),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  MovieMenuBarWidget(
-                      text: "Selected Movies",
-                      onTap: (){
-
-                      }
-                  ),
-                  sizedBoxH(5),
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                        children: recentList.asMap().entries.map((movie){
-                          return MovieMenuWidget(
-                            img: movie.value.img,
-                            text: movie.value.text,
-                            subText: movie.value.subText,
-                            onTap: (){},
-                          );
-                        }).toList()
-                    ),
-                  )
-                ],
-              ),
-            ),
-
-            /// ==# Top Movies
-            sizedBoxH(20),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  MovieMenuBarWidget(
-                      text: "Top Movies",
-                      onTap: (){
-
-                      }
-                  ),
-                  sizedBoxH(5),
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                        children: recentList.asMap().entries.map((movie){
-                          return MovieMenuWidget(
-                            img: movie.value.img,
-                            text: movie.value.text,
-                            subText: movie.value.subText,
-                            onTap: (){},
-                          );
-                        }).toList()
-                    ),
-                  )
-                ],
-              ),
-            ),
-
-            /// ==# News
-            sizedBoxH(20),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  MovieMenuBarWidget(
-                      text: "News",
-                      onTap: (){
-
-                      }
-                  ),
-                  sizedBoxH(5),
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                        children: recentList.asMap().entries.map((movie){
-                          return Container(
-                            width: 115,
-                            margin: const EdgeInsets.only(right: 10),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(5),
-                                  child: GlobalImageLoader(
-                                    imagePath: movie.value.img,
-                                    height: 160,
-                                    width: 115,
-                                    fit: BoxFit.fill,
-                                  ),
-                                ),
-                                const GlobalText(
-                                  str: "Kraven the Hunter Official Trailer 2",
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.bold,
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-
-                                const GlobalText(
-                                  str: "3 September | 2024",
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w600,
-                                )
-                              ],
-                            ),
-                          );
-                        }).toList()
-                    ),
-                  ),
                 ],
               ),
             ),

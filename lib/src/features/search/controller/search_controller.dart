@@ -53,20 +53,58 @@ class SearchBarController extends GetxController implements GetxService {
     }
   }
 
-  Future searchMovies({
+  SearchListModel? movieModel;
+  Future<SearchListModel?> fetchMovies({
     required String search,
     String? year,
     int page = 1,
   }) async {
-    return getSearchList(search: search, type: 'movie', year: year, page: page);
+    try {
+      _setLoadingState(true);
+
+      final response = await repository.getSearchList(
+        search: search,
+        type: 'movie',
+        year: year,
+        page: page,
+      );
+
+      movieModel = response;
+      _isLoading = false;
+      update();
+
+      return response;
+    } catch (e, s) {
+      log('Error: ', error: e, stackTrace: s);
+      _setErrorState(true);
+      return null;
+    }
   }
 
-  Future searchSeries({
+  SearchListModel? seriesModel;
+  Future<SearchListModel?> fetchSeries({
     required String search,
     String? year,
-    int page = 1,
   }) async {
-    return getSearchList(search: search, type: 'series', year: year, page: page);
+    try {
+      _setLoadingState(true);
+
+      final response = await repository.getSearchList(
+        search: search,
+        type: 'series',
+        year: year,
+      );
+
+      seriesModel = response;
+      _isLoading = false;
+      update();
+
+      return response;
+    } catch (e, s) {
+      log('Error: ', error: e, stackTrace: s);
+      _setErrorState(true);
+      return null;
+    }
   }
 
   Future searchEpisodes({
@@ -75,6 +113,34 @@ class SearchBarController extends GetxController implements GetxService {
     int page = 1,
   }) async {
     return getSearchList(search: search, type: 'episode', year: year, page: page);
+  }
+
+  SearchListModel? recentList;
+  Future<SearchListModel?> fetchRecent({
+    required String search,
+    String? year,
+    int page = 1,
+  }) async {
+    try {
+      _setLoadingState(true);
+
+      final response = await repository.getSearchList(
+        search: search,
+        type: 'movie',
+        year: year,
+        page: page,
+      );
+
+      recentList = response;
+      _isLoading = false;
+      update();
+
+      return response;
+    } catch (e, s) {
+      log('Error: ', error: e, stackTrace: s);
+      _setErrorState(true);
+      return null;
+    }
   }
 
   // Clear search results

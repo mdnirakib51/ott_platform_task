@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import '../../../../global/constants/colors_resources.dart';
+import '../../../../global/constants/enum.dart';
 import '../../../../global/widget/global_image_loader.dart';
 import '../../../../global/widget/global_text.dart';
 
@@ -8,12 +9,14 @@ class MovieMenuWidget extends StatelessWidget {
   final String img;
   final String text;
   final String subText;
+  final ImageFor? imageFor;
   final Function() onTap;
   const MovieMenuWidget({
     super.key,
     required this.img,
     required this.text,
     required this.subText,
+    this.imageFor = ImageFor.asset,
     required this.onTap,
   });
 
@@ -36,6 +39,7 @@ class MovieMenuWidget extends StatelessWidget {
                     height: 160,
                     width: 115,
                     fit: BoxFit.fill,
+                    imageFor: imageFor ?? ImageFor.asset,
                   ),
                 ),
                 Positioned(

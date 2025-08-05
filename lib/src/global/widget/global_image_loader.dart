@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:ott_app/src/global/constants/colors_resources.dart';
+import 'package:ott_app/src/global/widget/global_sized_box.dart';
 import '../constants/enum.dart';
 import '../constants/images.dart';
 
@@ -39,14 +40,11 @@ class GlobalImageLoader extends StatelessWidget {
                 height: height,
                 width: width,
                 color: ColorRes.grey.withOpacity(0.3),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image.asset(Images.appLogoShadow,
-                      width: 80,
-                      fit: BoxFit.fill,
-                    ),
-                  ],
+                child: Center(
+                  child: Image.asset(Images.appLogoShadow,
+                    width: size(context).width,
+                    fit: BoxFit.fill,
+                  ),
                 ),
               )
           )
@@ -64,14 +62,11 @@ class GlobalImageLoader extends StatelessWidget {
               height: height,
               width: width,
               color: ColorRes.black,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.asset(Images.appLogoShadow,
-                    width: 80,
-                    fit: BoxFit.fill,
-                  ),
-                ],
+              child: Center(
+                child: Image.asset(Images.appLogoShadow,
+                  width: 80,
+                  fit: BoxFit.fill,
+                ),
               ),
             )
         ),
@@ -88,14 +83,11 @@ class GlobalImageLoader extends StatelessWidget {
               height: height,
               width: width,
               color: ColorRes.black,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.asset(Images.appLogoShadow,
-                    width: 80,
-                    fit: BoxFit.fill,
-                  ),
-                ],
+              child: Center(
+                child: Image.asset(Images.appLogoShadow,
+                  width: 80,
+                  fit: BoxFit.fill,
+                ),
               ),
             )
         ),

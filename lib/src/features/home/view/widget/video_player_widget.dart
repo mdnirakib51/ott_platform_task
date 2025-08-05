@@ -82,7 +82,9 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10),
               child: Material(
+                color: Colors.transparent,
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Stack(
                       alignment: Alignment.topRight,

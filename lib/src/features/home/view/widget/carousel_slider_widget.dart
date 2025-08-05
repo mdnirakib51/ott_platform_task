@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ott_app/src/global/constants/colors_resources.dart';
+import 'package:ott_app/src/global/constants/enum.dart';
 import '../../../../global/constants/images.dart';
 import '../../../../global/widget/global_image_loader.dart';
 import '../../../../global/widget/global_sized_box.dart';
@@ -9,13 +10,15 @@ import '../../../../global/widget/global_text.dart';
 import '../../../video_details/view/video_details_screen.dart';
 
 class CarouselSliderWidget extends StatelessWidget {
-  final String img;
-  final String text;
-  final String subText;
+  final String? imdbId;
+  final String? img;
+  final String? text;
+  final String? subText;
   final Function() onTap;
   final Function() watchTrailerOnTap;
   const CarouselSliderWidget({
     super.key,
+    required this.imdbId,
     required this.img,
     required this.text,
     required this.subText,
@@ -36,14 +39,15 @@ class CarouselSliderWidget extends StatelessWidget {
 
     return GestureDetector(
       onTap: (){
-        Get.to(()=> const VideoDetailsScreen());
+        Get.to(()=> VideoDetailsScreen(imdbId: imdbId));
       },
       child: Stack(
         children: [
           GlobalImageLoader(
-            imagePath: img,
+            imagePath: img ?? "",
             fit: BoxFit.cover,
             height: 550,
+            imageFor: ImageFor.network,
           ),
           Container(
             height: 550,
@@ -75,7 +79,7 @@ class CarouselSliderWidget extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               GlobalImageText(
-                                str: text,
+                                str: text ?? "",
                                 fontSize: 30,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -109,7 +113,7 @@ class CarouselSliderWidget extends StatelessWidget {
                     sizedBoxH(10),
                     SizedBox(
                       child: GlobalText(
-                        str: subText,
+                        str: subText ?? "",
                         overflow: TextOverflow.ellipsis,
                         maxLines: 2,
                         fontSize: 13,
