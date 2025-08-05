@@ -7,6 +7,7 @@ import 'package:ott_app/src/global/widget/global_image_loader.dart';
 import 'package:ott_app/src/global/widget/global_sized_box.dart';
 import 'package:ott_app/src/global/widget/global_text.dart';
 import '../../../global/widget/global_textform_field.dart';
+import '../../video_details/view/video_details_screen.dart';
 import '../controller/search_controller.dart';
 import 'widget/search_list_shimmer.dart';
 import 'widget/search_menu_widget.dart';
@@ -344,7 +345,7 @@ class _SearchScreenState extends State<SearchScreen> {
           subText: _buildSubtitle(searchItem),
           onTap: () {
             if (searchItem.imdbID != null && searchItem.imdbID!.isNotEmpty) {
-              // Handle item tap
+              Get.to(()=> VideoDetailsScreen(imdbId: searchItem.imdbID));
             }
           },
         );

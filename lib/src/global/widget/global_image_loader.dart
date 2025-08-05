@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:ott_app/src/global/constants/colors_resources.dart';
-import '../../domain/server/http_client/app_config.dart';
 import '../constants/enum.dart';
 import '../constants/images.dart';
 

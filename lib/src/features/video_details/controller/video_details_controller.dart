@@ -1,19 +1,38 @@
 
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:ott_app/src/global/constants/images.dart';
 import 'package:video_player/video_player.dart';
+import '../model/video_list_model.dart';
 import '../view/mini_screen_video_player.dart';
 import '../view/components/video_details_play_back_speed_screen.dart';
+import 'video_detail_repo.dart';
 
 class VideoDetailsController extends GetxController implements GetxService {
-
-  VideoDetailsController();
-
   static VideoDetailsController get current => Get.find();
+  final VideoDetailsRepository repository = VideoDetailsRepository();
+
+  bool _isLoading = false;
+  bool get isLoading => _isLoading;
+
+  bool _hasError = false;
+  bool get hasError => _hasError;
+
+  void _setLoadingState(bool isLoading) {
+    _isLoading = isLoading;
+    _hasError = false;
+    update();
+  }
+
+  void _setErrorState(bool hasError) {
+    _isLoading = false;
+    _hasError = hasError;
+    update();
+  }
 
   final String videoSrc = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4";
   final String initImg = Images.justiceLeagueImg;
@@ -140,5 +159,31 @@ class VideoDetailsController extends GetxController implements GetxService {
   }
 
   /// ==================== /@ UI Api Han @/ ====================
+
+  VideoDetailsModel? videoListModel;
+  Future getVideoDetails({
+    required String imdbId,
+    String? title,
+    String? type,
+    String? year,
+  }) async {
+    try {
+      _setLoadingState(true);
+
+      final response = await repository.getVideoDetails(
+        imdbId: imdbId,
+        title: title,
+        type: type,
+        year: year,
+      );
+      videoListModel = response;
+
+      _isLoading = false;
+      update();
+    } catch (e, s) {
+      log('Error: ', error: e, stackTrace: s);
+      _setErrorState(true);
+    }
+  }
 
 }
