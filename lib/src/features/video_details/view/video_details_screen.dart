@@ -67,7 +67,9 @@ class _VideoDetailsScreenState extends State<VideoDetailsScreen> {
                   sizedBoxH(25),
 
                   // ==# Video Player
-                  const VideoPlayerDetailsWidget(),
+                  VideoPlayerDetailsWidget(
+                    initImg: videoDetailsController.videoListModel?.poster ?? ""
+                  ),
 
                   sizedBoxH(10),
                   Container(

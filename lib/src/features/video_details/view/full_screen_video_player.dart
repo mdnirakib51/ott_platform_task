@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:video_player/video_player.dart';
 import '../../../global/constants/colors_resources.dart';
+import '../../../global/constants/enum.dart';
 import '../../../global/constants/images.dart';
 import '../../../global/widget/global_image_loader.dart';
 import '../../../global/widget/global_sized_box.dart';
@@ -87,9 +88,10 @@ class _FullScreenVideoPlayerState extends State<FullScreenVideoPlayer> {
                         // Display image when the video is paused or hasn't started
                         if (!_controller.value.isPlaying)
                           Positioned.fill(
-                            child: Image.asset(
-                              videoDetailsController.initImg,
-                              fit: BoxFit.cover,
+                            child: GlobalImageLoader(
+                                imagePath: videoDetailsController.videoListModel?.poster ?? "",
+                                fit: BoxFit.cover,
+                                imageFor: ImageFor.network
                             ),
                           ),
                       ],
@@ -261,8 +263,8 @@ class _FullScreenVideoPlayerState extends State<FullScreenVideoPlayer> {
                         ),
 
                         sizedBoxW(10),
-                        const GlobalText(
-                          str: "Jack Reacher: Never Go Back",
+                        GlobalText(
+                          str: videoDetailsController.videoListModel?.title ?? "Loading...",
                           fontWeight: FontWeight.bold,
                           fontSize: 12,
                         )

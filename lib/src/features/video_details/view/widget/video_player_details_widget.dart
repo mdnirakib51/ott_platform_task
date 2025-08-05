@@ -7,12 +7,17 @@ import 'package:ott_app/src/global/constants/colors_resources.dart';
 import 'package:ott_app/src/global/constants/images.dart';
 import 'package:ott_app/src/global/widget/global_image_loader.dart';
 import 'package:video_player/video_player.dart';
+import '../../../../global/constants/enum.dart';
 import '../../../../global/widget/global_sized_box.dart';
 import '../full_screen_video_player.dart';
 import '../components/video_detatils_setting_screen.dart';
 
 class VideoPlayerDetailsWidget extends StatefulWidget {
-  const VideoPlayerDetailsWidget({super.key});
+  final String initImg;
+  const VideoPlayerDetailsWidget({
+    super.key,
+    required this.initImg,
+  });
 
   @override
   State<VideoPlayerDetailsWidget> createState() => _VideoPlayerDetailsWidgetState();
@@ -105,9 +110,10 @@ class _VideoPlayerDetailsWidgetState extends State<VideoPlayerDetailsWidget> {
                       // Display image when the video is paused or hasn't started
                       if (!_controller.value.isPlaying)
                         Positioned.fill(
-                          child: Image.asset(
-                            videoDetailsController.initImg, // Replace with actual image path
+                          child: GlobalImageLoader(
+                            imagePath: widget.initImg,
                             fit: BoxFit.cover,
+                            imageFor: ImageFor.network
                           ),
                         ),
                     ],
