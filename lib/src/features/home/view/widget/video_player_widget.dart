@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ott_app/src/global/constants/colors_resources.dart';
-import 'package:ott_app/src/global/constants/enum.dart';
 import 'package:ott_app/src/global/widget/global_image_loader.dart';
 import 'package:video_player/video_player.dart';
 import '../../../../global/widget/global_sized_box.dart';
@@ -187,7 +186,7 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
                                 },
                                 child: Icon(
                                   _isMuted ? Icons.volume_off : Icons.volume_up,
-                                  color: ColorRes.red,
+                                  color: ColorRes.grey,
                                   size: 18,
                                 ),
                               ),

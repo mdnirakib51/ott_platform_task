@@ -1,6 +1,11 @@
 
+import 'dart:developer';
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:ott_app/src/global/constants/colors_resources.dart';
+import '../../domain/server/http_client/app_config.dart';
 import '../constants/enum.dart';
+import '../constants/images.dart';
 
 class GlobalImageLoader extends StatelessWidget {
   const GlobalImageLoader({
@@ -25,13 +30,52 @@ class GlobalImageLoader extends StatelessWidget {
   Widget build(BuildContext context) {
     if (imageFor == ImageFor.network) {
       return Image.network(
-        imagePath,
+          imagePath,
+          height: height,
+          width: width,
+          fit: fit,
+          color: color,
+          errorBuilder: errorBuilder ?? (context, exception, stackTrace) => Center(
+              child: Container(
+                height: height,
+                width: width,
+                color: ColorRes.grey.withOpacity(0.3),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(Images.appLogoShadow,
+                      width: 80,
+                      fit: BoxFit.fill,
+                    ),
+                  ],
+                ),
+              )
+          )
+      );
+    } else if (imageFor == ImageFor.local) {
+      log("Image Path2: $imagePath");
+      return Image.file(
+        File(imagePath),
         height: height,
         width: width,
         fit: fit,
         color: color,
-        errorBuilder: errorBuilder ?? (context, exception, stackTrace) =>
-            Center(child: Image.asset("assets/images/placeholder_image.png", height: height, width: width, fit: BoxFit.fill))
+        errorBuilder: errorBuilder ?? (context, exception, stackTrace) => Center(
+            child: Container(
+              height: height,
+              width: width,
+              color: ColorRes.black,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset(Images.appLogoShadow,
+                    width: 80,
+                    fit: BoxFit.fill,
+                  ),
+                ],
+              ),
+            )
+        ),
       );
     } else {
       return Image.asset(
@@ -40,8 +84,22 @@ class GlobalImageLoader extends StatelessWidget {
         width: width,
         fit: fit,
         color: color,
-        errorBuilder: errorBuilder ?? (context, exception, stackTrace) =>
-            Center(child: Image.asset("assets/images/placeholder_image.png", height: height, width: width, fit: BoxFit.fill))
+        errorBuilder: errorBuilder ?? (context, exception, stackTrace) => Center(
+            child: Container(
+              height: height,
+              width: width,
+              color: ColorRes.black,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset(Images.appLogoShadow,
+                    width: 80,
+                    fit: BoxFit.fill,
+                  ),
+                ],
+              ),
+            )
+        ),
       );
     }
   }

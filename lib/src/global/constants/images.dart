@@ -11,6 +11,7 @@ class Images {
   //==============/@ App Img
 
   static const String appLogo = 'assets/app_src/dhuum_logo.png';
+  static const String appLogoShadow = 'assets/app_src/dhuum_shadow_logo.png';
 
   static const String textUre = 'assets/app_src/texture.jpg';
 

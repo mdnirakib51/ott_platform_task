@@ -1,6 +1,7 @@
 enum ImageFor {
   asset,
   network,
+  local,
 }
 
 enum UrlLink {

@@ -8,6 +8,7 @@ import 'domain/server/http_client/request_handler.dart';
 import 'features/account/controller/account_controller.dart';
 import 'features/dashboard_bottom_navigation_bar/controller/dashboard_buttom_controller.dart';
 import 'features/home/controller/home_controller.dart';
+import 'features/search/controller/search_controller.dart';
 import 'features/video_details/controller/video_details_controller.dart';
 
 final locator = GetIt.instance;
@@ -25,6 +26,7 @@ Future<void> init(LocalStorage localStorage) async {
   Get.lazyPut(() => HomePageController(), fenix: true);
   Get.lazyPut(() => DashboardBottomController(), fenix: true);
   Get.lazyPut(() => VideoDetailsController(), fenix: true);
+  Get.lazyPut(() => SearchBarController(), fenix: true);
 
   // ==# Register GetIt services within GetX for further access
   Get.lazyPut(() => locator<RequestHandler>(), fenix: true);

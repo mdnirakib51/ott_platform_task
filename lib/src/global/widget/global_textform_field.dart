@@ -31,6 +31,7 @@ class GlobalTextFormField extends StatefulWidget {
   final bool isPasswordField;
   final bool? isRequired;
   final int? maxLine;
+  final int? maxLength;
   final bool autofocus;
   final bool autocurrent;
   final bool? isDense;
@@ -61,6 +62,7 @@ class GlobalTextFormField extends StatefulWidget {
     this.obscureText,
     this.obscuringCharacter,
     this.maxLine,
+    this.maxLength,
     this.validator,
     this.onChanged,
     this.floatingLabelBehavior,
@@ -136,6 +138,7 @@ class _GlobalTextFormFieldState extends State<GlobalTextFormField> {
         TextFormField(
           autofocus: widget.autofocus,
           enabled: widget.enabled,
+          maxLength: widget.maxLength,
           autocorrect: widget.autocurrent,
           readOnly: widget.readOnly ?? false,
           enableIMEPersonalizedLearning: false,

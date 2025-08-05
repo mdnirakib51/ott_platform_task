@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:ott_app/src/global/constants/enum.dart';
 import 'package:ott_app/src/global/widget/global_sized_box.dart';
 import '../../../../global/widget/global_image_loader.dart';
 import '../../../../global/widget/global_text.dart';
@@ -36,6 +37,7 @@ class SearchMenuWidget extends StatelessWidget {
                 height: 85,
                 width: 140,
                 fit: BoxFit.fill,
+                imageFor: ImageFor.network,
               ),
             ),
             sizedBoxW(5),

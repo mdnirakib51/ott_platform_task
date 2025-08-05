@@ -216,15 +216,29 @@ class RequestHandler extends GetxController {
     _initialize();
     printTest(" =======/@ Start @/======= ");
 
-    log("==/@ Url: ${mainUrl + url}");
-    log(dio.options.headers.toString());
+    Map<String, dynamic> finalQueryParams = queryParams != null
+        ? Map<String, dynamic>.from(queryParams)
+        : <String, dynamic>{};
+
+    finalQueryParams['apikey'] = "18d3fd49";
 
     try {
       final response = await dio.get(
         baseUrl ?? mainUrl + url,
         options: options,
-        queryParameters: queryParams,
+        queryParameters: finalQueryParams,
       );
+
+      log(""" 
+==/@
+    Message: "Success.."
+    Method: "#GET"
+    Url: ${response.realUri}
+    Headers: ${dio.options.headers.toString()}
+    StatusCode: ${response.statusCode}
+    Response Data: ${response.data}
+==/@
+""");
 
       final Map<String, dynamic> responseData = response.data is String
           ? jsonDecode(response.data)

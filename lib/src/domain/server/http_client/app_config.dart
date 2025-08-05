@@ -4,21 +4,19 @@ import '../../../global/constants/enum.dart';
 enum AppConfig {
   base,
   baseImage,
-  logInUrl,
-  registrationUrl,
+  apiKey,
 
 }
 
 extension AppUrlExtention on AppConfig {
   static String _baseUrl = "";
-
   static void setUrl(UrlLink urlLink) {
     switch (urlLink) {
       case UrlLink.isLive:
         _baseUrl = "";
         break;
       case UrlLink.isDev:
-        _baseUrl = "https://sau.brri.softwaresale.xyz/";
+        _baseUrl = "http://www.omdbapi.com/";
 
         break;
       case UrlLink.isLocalServer:
@@ -33,12 +31,6 @@ extension AppUrlExtention on AppConfig {
         return _baseUrl;
       case AppConfig.baseImage:
         return "";
-
-        /// ==/@ Auth Api Url @/==
-      case AppConfig.logInUrl:
-        return 'api/login';
-      case AppConfig.registrationUrl:
-        return 'api/member_registration';
 
       default:
     }

@@ -1,5 +1,5 @@
-import 'dart:ui' as ui;
 
+import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ott_app/src/global/constants/images.dart';
@@ -17,7 +17,7 @@ class GlobalText extends StatelessWidget {
   final int? maxLines;
   final TextOverflow? overflow;
   final TextAlign? textAlign;
-  final bool? softwrap;
+  final bool? softWrap;
   final double? height;
   final String? fontFamily;
 
@@ -33,7 +33,7 @@ class GlobalText extends StatelessWidget {
     this.maxLines,
     this.textAlign,
     this.overflow,
-    this.softwrap,
+    this.softWrap,
     this.height,
     this.fontFamily,
   });
@@ -48,7 +48,7 @@ class GlobalText extends StatelessWidget {
       maxLines: maxLines,
       overflow: overflow,
       textAlign: textAlign,
-      softWrap: softwrap,
+      softWrap: softWrap,
       style: GoogleFonts.roboto(
         color: color ?? ColorRes.white,
         fontSize: fontSize,
@@ -74,7 +74,7 @@ class GlobalImageText extends StatelessWidget {
   final int? maxLines;
   final TextOverflow? overflow;
   final TextAlign? textAlign;
-  final bool? softwrap;
+  final bool? softWrap;
   final double? height;
   final String? fontFamily;
 
@@ -90,7 +90,7 @@ class GlobalImageText extends StatelessWidget {
     this.maxLines,
     this.textAlign,
     this.overflow,
-    this.softwrap,
+    this.softWrap,
     this.height,
     this.fontFamily,
   });
@@ -102,15 +102,20 @@ class GlobalImageText extends StatelessWidget {
     final double fontHeight = h * fw;
 
     return FutureBuilder<ui.Image>(
-      future: _loadUiImage(Images.textUre), // Load the texture image as ui.Image
+      future: _loadUiImage(Images.textUre), // Replace with your image path
       builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          // Display a placeholder or empty container until the image loads
+          return const SizedBox();
+        }
+
         return ShaderMask(
           shaderCallback: (Rect bounds) {
             return ImageShader(
               snapshot.data!,
               TileMode.repeated,
               TileMode.repeated,
-              Matrix4.identity().storage, // Removed scaling
+              Matrix4.identity().storage,
             );
           },
           blendMode: BlendMode.srcIn,
@@ -119,9 +124,9 @@ class GlobalImageText extends StatelessWidget {
             maxLines: maxLines,
             overflow: overflow,
             textAlign: textAlign,
-            softWrap: softwrap,
+            softWrap: softWrap,
             style: GoogleFonts.roboto(
-              color: color, // This color will be overridden by the image texture
+              color: color,
               fontSize: fontSize,
               fontWeight: fontWeight,
               letterSpacing: letterSpacing,
@@ -142,3 +147,54 @@ class GlobalImageText extends StatelessWidget {
     return frame.image;
   }
 }
+
+class ExpandableDescription extends StatefulWidget {
+  final String description;
+  final int maxLines;
+  const ExpandableDescription({
+    super.key,
+    required this.description,
+    this.maxLines = 3,
+  });
+
+  @override
+  State<ExpandableDescription> createState() => _ExpandableDescriptionState();
+}
+
+class _ExpandableDescriptionState extends State<ExpandableDescription> {
+  bool isExpanded = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        GlobalText(
+          str: widget.description,
+          maxLines: isExpanded ? null : widget.maxLines,
+          overflow: isExpanded ? TextOverflow.visible : TextOverflow.ellipsis,
+          fontSize: 11,
+        ),
+        Align(
+          alignment: Alignment.centerRight,
+          child: GestureDetector(
+            onTap: () {
+              setState(() {
+                isExpanded = !isExpanded;  // Toggle between expanded and collapsed
+              });
+            },
+            child: Padding(
+              padding: const EdgeInsets.only(right: 5),
+              child: GlobalText(
+                str: isExpanded ? "See less" : "See more",
+                color: ColorRes.appRedColor,
+                fontSize: 12,
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
