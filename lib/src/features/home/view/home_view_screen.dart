@@ -13,7 +13,6 @@ import '../../search/controller/search_controller.dart';
 import '../../video_details/view/video_details_screen.dart';
 import '../model/demo_model/movie_model.dart';
 import 'widget/carousel_slider_widget.dart';
-import 'widget/movie_menu_bar_widget.dart';
 import 'widget/movie_menu_widget.dart';
 import 'widget/social_menu_widget.dart';
 import 'widget/video_player_widget.dart';

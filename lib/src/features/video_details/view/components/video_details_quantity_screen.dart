@@ -7,16 +7,16 @@ import '../../../../global/widget/global_sized_box.dart';
 import '../../../../global/widget/global_text.dart';
 import '../../controller/video_details_controller.dart';
 
-class VideoDetailsQuantityScreen extends StatefulWidget {
-  const VideoDetailsQuantityScreen({
+class VideoDetailsQualityScreen extends StatefulWidget {
+  const VideoDetailsQualityScreen({
     super.key,
   });
 
   @override
-  State<VideoDetailsQuantityScreen> createState() => _VideoDetailsQuantityScreenState();
+  State<VideoDetailsQualityScreen> createState() => _VideoDetailsQualityScreenState();
 }
 
-class _VideoDetailsQuantityScreenState extends State<VideoDetailsQuantityScreen> {
+class _VideoDetailsQualityScreenState extends State<VideoDetailsQualityScreen> {
 
   final videoDetailsController = Get.find<VideoDetailsController>();
 
@@ -55,7 +55,7 @@ class _VideoDetailsQuantityScreenState extends State<VideoDetailsQuantityScreen>
                   const Row(
                     children: [
                       GlobalText(
-                        str: "Video Quantity",
+                        str: "Video Quality",
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
                       )
@@ -66,14 +66,14 @@ class _VideoDetailsQuantityScreenState extends State<VideoDetailsQuantityScreen>
 
                   Expanded(
                     child: ListView.builder(
-                        itemCount: videoPlayerDetailsController.quantityList.length,
+                        itemCount: videoPlayerDetailsController.qualityList.length,
                         shrinkWrap: true,
                         itemBuilder: (ctx, index){
-                          final languageData = videoPlayerDetailsController.quantityList[index];
+                          final languageData = videoPlayerDetailsController.qualityList[index];
                           return GestureDetector(
                             onTap: (){
                               buildSetState(() {
-                                videoPlayerDetailsController.selectPlaySpeed = index;
+
                               });
                             },
                             child: Container(
@@ -85,7 +85,7 @@ class _VideoDetailsQuantityScreenState extends State<VideoDetailsQuantityScreen>
                               child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  videoPlayerDetailsController.selectPlaySpeed == index
+                                  videoPlayerDetailsController.selectQuantity == index
                                       ? Container(
                                     height: 22,
                                     width: 22,

@@ -34,13 +34,13 @@ class VideoDetailsController extends GetxController implements GetxService {
     update();
   }
 
-  final String videoSrc = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4";
+  final String videoSrc = "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8";
   final String initImg = Images.justiceLeagueImg;
 
   /// ==# Selected Video Player Speed..
   int? selectQuantity = 0;
 
-  List<PlayBackSpeedModel> quantityList = [
+  List<PlayBackSpeedModel> qualityList = [
     PlayBackSpeedModel(playBackName: "Auto", playBackValue: 0.5),
     PlayBackSpeedModel(playBackName: "400p", playBackValue: 0.75),
     PlayBackSpeedModel(playBackName: "720p", playBackValue: 1.0),

@@ -62,15 +62,15 @@ class _VideoDetailsSettingsScreenState extends State<VideoDetailsSettingsScreen>
 
                   sizedBoxH(10),
                   VideoDetailsSettingMenuWidget(
-                      img: Images.quantityIc,
-                      title: "Quantity",
+                      img: Images.qualityIc,
+                      title: "Quality",
                       subTitle: "Auto(720p)",
                       onTap: (){
                         showModalBottomSheet(
                             context: context,
                             backgroundColor: Colors.transparent,
                             builder: (ctx){
-                              return const VideoDetailsQuantityScreen();
+                              return const VideoDetailsQualityScreen();
                             }
                         );
                       }

@@ -35,7 +35,7 @@ class Images {
   static const String nextIc = 'assets/app_src/icon/next_ic.png';
   static const String previousIc = 'assets/app_src/icon/previous_ic.png';
   static const String playSpeedIc = 'assets/app_src/icon/play_speed_ic.png';
-  static const String quantityIc = 'assets/app_src/icon/quantity_ic.png';
+  static const String qualityIc = 'assets/app_src/icon/quantity_ic.png';
 
   //==/@ Social
   static const String facebookIc = 'assets/app_src/icon/social_ic/facebook.png';

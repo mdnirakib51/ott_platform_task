@@ -162,8 +162,7 @@ class _VideoDetailsScreenState extends State<VideoDetailsScreen> {
                         // Plot/Description
                         SizedBox(
                           child: GlobalText(
-                            str: videoDetailsController.videoListModel?.plot ??
-                                "Description not available.",
+                            str: videoDetailsController.videoListModel?.plot ?? "Description not available.",
                             overflow: TextOverflow.ellipsis,
                             maxLines: 3,
                             fontSize: 10,
