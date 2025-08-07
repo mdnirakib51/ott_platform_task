@@ -1,15 +1,13 @@
-
 import 'dart:async';
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:ott_app/src/global/constants/images.dart';
 import 'package:video_player/video_player.dart';
+import '../hls_service/hls_quality_manage.dart';
 import '../model/video_list_model.dart';
 import '../view/mini_screen_video_player.dart';
-import '../view/components/video_details_play_back_speed_screen.dart';
 import 'video_detail_repo.dart';
 
 class VideoDetailsController extends GetxController implements GetxService {
@@ -37,15 +35,112 @@ class VideoDetailsController extends GetxController implements GetxService {
   final String videoSrc = "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8";
   final String initImg = Images.justiceLeagueImg;
 
-  /// ==# Selected Video Player Speed..
+  /// ==# Selected Video Quality..
   int? selectQuantity = 0;
+  List<QualityModel> qualityList = [];
+  bool _isQualitiesLoaded = false;
+  bool get isQualitiesLoaded => _isQualitiesLoaded;
 
-  List<PlayBackSpeedModel> qualityList = [
-    PlayBackSpeedModel(playBackName: "Auto", playBackValue: 0.5),
-    PlayBackSpeedModel(playBackName: "400p", playBackValue: 0.75),
-    PlayBackSpeedModel(playBackName: "720p", playBackValue: 1.0),
-  ];
+  // Current selected quality URL
+  String get currentQualityUrl => qualityList.isNotEmpty && selectQuantity != null
+      ? qualityList[selectQuantity!].qualityUrl
+      : videoSrc;
 
+  /// Initialize HLS qualities
+  Future<void> initializeQualities() async {
+    try {
+      _setLoadingState(true);
+      final hlsQualities = await HLSQualityManager.extractQualities(videoSrc);
+
+      qualityList.clear();
+      for (final quality in hlsQualities) {
+        qualityList.add(QualityModel(
+          qualityName: quality.label,
+          qualityUrl: quality.url,
+          resolution: quality.resolution,
+          bandwidth: quality.bandwidth,
+        ));
+      }
+
+      // Set Auto as default (index 0)
+      selectQuantity = 0;
+      _isQualitiesLoaded = true;
+
+      log('Loaded ${qualityList.length} qualities');
+      for (final quality in qualityList) {
+        log('Quality: ${quality.qualityName} - ${quality.resolution}');
+      }
+
+      _setLoadingState(false);
+    } catch (e) {
+      log('Error initializing qualities: $e');
+      // Fallback to default quality list if HLS parsing fails
+      qualityList = [
+        QualityModel(
+          qualityName: "Auto",
+          qualityUrl: videoSrc,
+          resolution: "Auto",
+          bandwidth: 0,
+        ),
+      ];
+      selectQuantity = 0;
+      _isQualitiesLoaded = true;
+      _setLoadingState(false);
+    }
+  }
+
+  /// Change video quality
+  Future<void> changeQuality(int qualityIndex, VideoPlayerController controller) async {
+    if (qualityIndex >= 0 && qualityIndex < qualityList.length) {
+      try {
+        // Store current position
+        final currentPosition = controller.value.position;
+        final wasPlaying = controller.value.isPlaying;
+
+        // Pause the video
+        await controller.pause();
+
+        // Update selected quality
+        selectQuantity = qualityIndex;
+
+        // Dispose current controller
+        await controller.dispose();
+
+        // Create new controller with new quality URL
+        final newController = VideoPlayerController.networkUrl(
+            Uri.parse(qualityList[qualityIndex].qualityUrl)
+        );
+
+        // Initialize new controller
+        await newController.initialize();
+
+        // Restore position
+        await newController.seekTo(currentPosition);
+
+        // Resume playing if it was playing before
+        if (wasPlaying) {
+          await newController.play();
+        }
+
+        // You'll need to update the reference to the new controller
+        // This might require some refactoring in your widget
+
+        log('Quality changed to: ${qualityList[qualityIndex].qualityName}');
+        update();
+
+      } catch (e) {
+        log('Error changing quality: $e');
+      }
+    }
+  }
+
+  /// Get current quality name
+  String getCurrentQualityName() {
+    if (selectQuantity != null && selectQuantity! < qualityList.length) {
+      return qualityList[selectQuantity!].qualityName;
+    }
+    return 'Auto';
+  }
 
   /// ==================== /@ Business Logic @/ ====================
 
@@ -185,5 +280,14 @@ class VideoDetailsController extends GetxController implements GetxService {
       _setErrorState(true);
     }
   }
+}
 
+class PlayBackSpeedModel{
+  final String playBackName;
+  final double playBackValue;
+
+  PlayBackSpeedModel({
+    required this.playBackName,
+    required this.playBackValue
+  });
 }

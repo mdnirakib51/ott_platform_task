@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../../global/constants/colors_resources.dart';
@@ -8,8 +7,11 @@ import '../../../../global/widget/global_text.dart';
 import '../../controller/video_details_controller.dart';
 
 class VideoDetailsQualityScreen extends StatefulWidget {
+  final Function(int)? onQualitySelected;
+
   const VideoDetailsQualityScreen({
     super.key,
+    this.onQualitySelected,
   });
 
   @override
@@ -19,11 +21,13 @@ class VideoDetailsQualityScreen extends StatefulWidget {
 class _VideoDetailsQualityScreenState extends State<VideoDetailsQualityScreen> {
 
   final videoDetailsController = Get.find<VideoDetailsController>();
+  int? tempSelectedQuality;
 
   @override
   void initState() {
     super.initState();
-
+    // Initialize temp selection with current selection
+    tempSelectedQuality = videoDetailsController.selectQuantity;
   }
 
   @override
@@ -40,6 +44,7 @@ class _VideoDetailsQualityScreenState extends State<VideoDetailsQualityScreen> {
               ),
               padding: const EdgeInsets.symmetric(horizontal: 10),
               child: Column(
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   sizedBoxH(10),
                   Container(
@@ -64,82 +69,114 @@ class _VideoDetailsQualityScreenState extends State<VideoDetailsQualityScreen> {
 
                   sizedBoxH(10),
 
-                  Expanded(
-                    child: ListView.builder(
-                        itemCount: videoPlayerDetailsController.qualityList.length,
-                        shrinkWrap: true,
-                        itemBuilder: (ctx, index){
-                          final languageData = videoPlayerDetailsController.qualityList[index];
-                          return GestureDetector(
-                            onTap: (){
-                              buildSetState(() {
+                  // Show loading if qualities are not loaded yet
+                  if (!videoPlayerDetailsController.isQualitiesLoaded)
+                    const Padding(
+                      padding: EdgeInsets.all(20.0),
+                      child: CircularProgressIndicator(color: ColorRes.white),
+                    ),
 
-                              });
-                            },
-                            child: Container(
-                              color: Colors.transparent,
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 10,
-                                  horizontal: 5
-                              ),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  videoPlayerDetailsController.selectQuantity == index
-                                      ? Container(
-                                    height: 22,
-                                    width: 22,
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(50),
-                                        color: ColorRes.appRedColor
-                                    ),
-                                    child: const Icon(
-                                      Icons.check,
-                                      color: ColorRes.white,
-                                      size: 18,
-                                    ),
-                                  )
-                                      : Container(
-                                    height: 22,
-                                    width: 22,
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(50),
-                                        border: Border.all(
-                                            color: ColorRes.appRedColor,
-                                            width: 1
-                                        )
-                                    ),
-                                  ),
+                  // Show quality list if loaded
+                  if (videoPlayerDetailsController.isQualitiesLoaded)
+                    Flexible(
+                      child: ListView.builder(
+                          itemCount: videoPlayerDetailsController.qualityList.length,
+                          shrinkWrap: true,
+                          itemBuilder: (ctx, index){
+                            final qualityData = videoPlayerDetailsController.qualityList[index];
+                            final isSelected = tempSelectedQuality == index;
 
-                                  sizedBoxW(15),
-                                  Expanded(
-                                    child: SizedBox(
-                                      child: GlobalText(
-                                        str: languageData.playBackName,
-                                        fontWeight: FontWeight.w500,
+                            return GestureDetector(
+                              onTap: (){
+                                buildSetState(() {
+                                  tempSelectedQuality = index;
+                                });
+                              },
+                              child: Container(
+                                color: Colors.transparent,
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 12,
+                                    horizontal: 5
+                                ),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    isSelected
+                                        ? Container(
+                                      height: 22,
+                                      width: 22,
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(50),
+                                          color: ColorRes.appRedColor
+                                      ),
+                                      child: const Icon(
+                                        Icons.check,
                                         color: ColorRes.white,
+                                        size: 18,
+                                      ),
+                                    )
+                                        : Container(
+                                      height: 22,
+                                      width: 22,
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(50),
+                                          border: Border.all(
+                                              color: ColorRes.appRedColor,
+                                              width: 1
+                                          )
                                       ),
                                     ),
-                                  )
-                                ],
+
+                                    sizedBoxW(15),
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          GlobalText(
+                                            str: qualityData.qualityName,
+                                            fontWeight: FontWeight.w500,
+                                            color: ColorRes.white,
+                                            fontSize: 14,
+                                          ),
+                                          if (qualityData.resolution != 'Auto' && qualityData.resolution != 'Unknown')
+                                            GlobalText(
+                                              str: qualityData.resolution,
+                                              fontWeight: FontWeight.w400,
+                                              color: ColorRes.grey,
+                                              fontSize: 12,
+                                            ),
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                ),
                               ),
-                            ),
-                          );
-                        }
+                            );
+                          }
+                      ),
                     ),
-                  ),
 
                   sizedBoxH(10),
-                  // Save button
-                  GlobalButtonWidget(
-                    str: "Save",
-                    height: 45,
-                    buttomColor: ColorRes.appRedColor,
-                    textSize: 13,
-                    onTap: () {
 
-                    },
-                  ),
+                  // Save button
+                  if (videoPlayerDetailsController.isQualitiesLoaded)
+                    GlobalButtonWidget(
+                      str: "Apply",
+                      height: 45,
+                      buttomColor: ColorRes.appRedColor,
+                      textSize: 13,
+                      onTap: () {
+                        if (tempSelectedQuality != null &&
+                            tempSelectedQuality != videoPlayerDetailsController.selectQuantity) {
+                          // Apply the quality change
+                          if (widget.onQualitySelected != null) {
+                            widget.onQualitySelected!(tempSelectedQuality!);
+                          }
+                        }
+                        Get.back(); // Close the quality selection screen
+                        Get.back(); // Close the settings screen
+                      },
+                    ),
                   sizedBoxH(10),
 
                 ],
@@ -149,14 +186,4 @@ class _VideoDetailsQualityScreenState extends State<VideoDetailsQualityScreen> {
       );
     });
   }
-}
-
-class PlayBackSpeedModel{
-  final String playBackName;
-  final double playBackValue;
-
-  PlayBackSpeedModel({
-    required this.playBackName,
-    required this.playBackValue
-  });
 }

@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../../global/constants/colors_resources.dart';
@@ -12,9 +11,12 @@ import 'video_details_quantity_screen.dart';
 
 class VideoDetailsSettingsScreen extends StatefulWidget {
   final Function(double) onSpeedSelected;
+  final Function(int)? onQualitySelected; // Add quality callback
+
   const VideoDetailsSettingsScreen({
     super.key,
-    required this.onSpeedSelected
+    required this.onSpeedSelected,
+    this.onQualitySelected, // Make it optional for backward compatibility
   });
 
   @override
@@ -25,84 +27,88 @@ class _VideoDetailsSettingsScreenState extends State<VideoDetailsSettingsScreen>
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<VideoDetailsController>(builder: (videoPlayerDetailsController){
-      return StatefulBuilder(
-          builder: (ctx, buildSetState){
-            return Container(
-              height: 180,
-              width: size(context).width,
-              margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-              decoration: BoxDecoration(
-                  color: ColorRes.appBackColor,
-                  borderRadius: BorderRadius.circular(10)
-              ),
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: Column(
-                children: [
-                  sizedBoxH(10),
-                  Container(
-                    height: 4,
-                    width: 80,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: ColorRes.grey.withOpacity(0.3)
-                    ),
+    return GetBuilder<VideoDetailsController>(
+        builder: (videoPlayerDetailsController) {
+          return StatefulBuilder(
+              builder: (ctx, buildSetState) {
+                return Container(
+                  height: 180,
+                  width: size(context).width,
+                  margin: const EdgeInsets.symmetric(
+                      horizontal: 8, vertical: 8),
+                  decoration: BoxDecoration(
+                      color: ColorRes.appBackColor,
+                      borderRadius: BorderRadius.circular(10)
                   ),
-
-                  sizedBoxH(10),
-                  const Row(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: Column(
                     children: [
-                      GlobalText(
-                        str: "Video Option",
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                      )
+                      sizedBoxH(10),
+                      Container(
+                        height: 4,
+                        width: 80,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: ColorRes.grey.withOpacity(0.3)
+                        ),
+                      ),
+
+                      sizedBoxH(10),
+                      const Row(
+                        children: [
+                          GlobalText(
+                            str: "Video Option",
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          )
+                        ],
+                      ),
+
+                      sizedBoxH(10),
+                      VideoDetailsSettingMenuWidget(
+                          img: Images.qualityIc,
+                          title: "Quality",
+                          subTitle: videoPlayerDetailsController.getCurrentQualityName(),
+                          onTap: () {
+                            showModalBottomSheet(
+                                context: context,
+                                backgroundColor: Colors.transparent,
+                                builder: (ctx) {
+                                  return VideoDetailsQualityScreen(
+                                    onQualitySelected: widget.onQualitySelected,
+                                  );
+                                }
+                            );
+                          }
+                      ),
+
+                      VideoDetailsSettingMenuWidget(
+                          img: Images.playSpeedIc,
+                          title: "PlayBack Speed",
+                          subTitle: videoPlayerDetailsController.getPlaybackSpeedLabel(videoPlayerDetailsController.initialSpeed ?? 1),
+                          onTap: () {
+                            showModalBottomSheet(
+                                context: context,
+                                backgroundColor: Colors.transparent,
+                                builder: (ctx) {
+                                  return VideoDetailsPlayBackSpeedScreen(
+                                    onSpeedSelected: (speed) {
+                                      setState(() {
+                                        videoPlayerDetailsController.initialSpeed = speed;
+                                      });
+                                      widget.onSpeedSelected(speed);
+                                    },
+                                  );
+                                }
+                            );
+                          }
+                      ),
+
                     ],
                   ),
-
-                  sizedBoxH(10),
-                  VideoDetailsSettingMenuWidget(
-                      img: Images.qualityIc,
-                      title: "Quality",
-                      subTitle: "Auto(720p)",
-                      onTap: (){
-                        showModalBottomSheet(
-                            context: context,
-                            backgroundColor: Colors.transparent,
-                            builder: (ctx){
-                              return const VideoDetailsQualityScreen();
-                            }
-                        );
-                      }
-                  ),
-
-                  VideoDetailsSettingMenuWidget(
-                      img: Images.playSpeedIc,
-                      title: "PlayBack Speed",
-                      subTitle: videoPlayerDetailsController.getPlaybackSpeedLabel(videoPlayerDetailsController.initialSpeed ?? 1),
-                      onTap: (){
-                        showModalBottomSheet(
-                            context: context,
-                            backgroundColor: Colors.transparent,
-                            builder: (ctx){
-                              return VideoDetailsPlayBackSpeedScreen(
-                                onSpeedSelected: (speed){
-                                  setState(() {
-                                    videoPlayerDetailsController.initialSpeed = speed;
-                                  });
-                                  widget.onSpeedSelected(speed);
-                                },
-                              );
-                            }
-                        );
-                      }
-                  ),
-
-                ],
-              ),
-            );
-          }
-      );
-    });
+                );
+              }
+          );
+        });
   }
 }

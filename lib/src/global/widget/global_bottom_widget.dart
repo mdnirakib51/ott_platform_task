@@ -12,7 +12,7 @@ class GlobalButtonWidget extends StatefulWidget {
   final double? vertical;
   final String str;
   final String? img;
-  final Function() onTap;
+  final Function()? onTap;
   final double? elevation;
   final Color? buttomColor;
   final Color? textColor;
