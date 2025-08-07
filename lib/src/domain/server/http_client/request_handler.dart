@@ -214,12 +214,10 @@ class RequestHandler extends GetxController {
         Map<String, dynamic>? queryParams,
       }) async {
     _initialize();
-    printTest(" =======/@ Start @/======= ");
 
     Map<String, dynamic> finalQueryParams = queryParams != null
         ? Map<String, dynamic>.from(queryParams)
         : <String, dynamic>{};
-
     finalQueryParams['apikey'] = "18d3fd49";
 
     try {
@@ -229,23 +227,20 @@ class RequestHandler extends GetxController {
         queryParameters: finalQueryParams,
       );
 
-      log(""" 
-==/@
-    Message: "Success.."
-    Method: "#GET"
-    Url: ${response.realUri}
-    Headers: ${dio.options.headers.toString()}
-    StatusCode: ${response.statusCode}
-    Response Data: ${response.data}
-==/@
-""");
+//       log("""
+// ==/@
+//     Message: "Success.."
+//     Method: "#GET"
+//     Url: ${response.realUri}
+//     Headers: ${dio.options.headers.toString()}
+//     StatusCode: ${response.statusCode}
+//     Response Data: ${response.data}
+// ==/@
+// """);
 
       final Map<String, dynamic> responseData = response.data is String
           ? jsonDecode(response.data)
           : response.data;
-
-      log('==/@ Response StatusCode: ${response.statusCode}');
-      log('==/@ Response Data: ${response.data}');
 
       // ApiCheckerDec.checkApi(responseData['status'], responseData['message']);
       return responseData;

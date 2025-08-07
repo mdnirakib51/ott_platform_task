@@ -1,16 +1,71 @@
-# ott_app
+# 📺 ott_app
 
-A new Flutter project.
+A modern OTT (Over-The-Top) streaming platform built using **Flutter SDK 3.22.2**.
 
-## Getting Started
+---
 
-This project is a starting point for a Flutter application.
+## ✅ Prerequisites
 
-A few resources to get you started if this is your first Flutter project:
+Before you get started, make sure you have the following installed:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- **Flutter SDK Version:** `3.22.2`
+- **Main Package Used:**
+  ```yaml
+  video_player: ^2.9.1
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+A modern OTT (Over-The-Top) streaming platform built using **Flutter SDK 3.22.2**.
+
+## 🚀 Overview
+
+This project demonstrates an OTT application where users can:
+- View carousel banners of Batman movies
+- Explore the latest movies and series
+- Watch HLS videos with advanced playback features
+- Search and filter content by year and type using OMDB APIs
+
+---
+
+## 🏠 Home Screen
+
+- Displays a **carousel banner** featuring 5 Batman movies using OMDB APIs.
+- Below the banner, dynamically shows **recent and latest movies & series** fetched from the OMDB database.
+
+---
+
+## ℹ️ Video Details Screen
+
+- Fetches and displays **video details** using **IMDb ID or Title** via OMDB API.
+- Includes metadata such as title, poster, genre, year, runtime, and more.
+
+---
+
+## 🎬 Video Player Features
+
+- Built using the `video_player: ^2.9.1` Flutter package.
+- Supports:
+    - Inline video playback
+    - Mini preview playback
+    - Full-screen mode
+    - **Mute/unmute** control
+    - **HLS (HTTP Live Streaming) video support** for maintaining video quality
+    - **Playback speed control**
+
+---
+
+## 🔍 Search Functionality
+
+- Users can **search for movies/series** by title using the OMDB search API.
+- Allows filtering by:
+    - **Year**
+    - **Type** (movie, series, etc.)
+- Displays a responsive list of matched videos.
+
+---
+
+## ⚙️ Getting Started
+
+To run the project on your local machine:
+
+```bash
+flutter pub get
+flutter run
